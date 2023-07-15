@@ -31,9 +31,14 @@ func Jogando() {
 	for i := 0; i < len(palavra); i++ {
 		palavraSecreta[i] = "_"
 	}
-	acertou := true
+	vidas := 5
+	fmt.Println("Suas vidas:", vidas)
+	var acertou bool
+	var encerrar bool
 
-	for acertou {
+	for vidas > 0 {
+		acertou = false
+		encerrar = false
 		var chute string
 		var rodada int = 0
 		fmt.Println(palavraSecreta)
@@ -44,11 +49,26 @@ func Jogando() {
 		for _, letra := range palavra {
 			if strings.ToUpper(chute) == strings.ToUpper(string(letra)) {
 				palavraSecreta[rodada] = chute
-				fmt.Println(rodada)
+				acertou = true
 			}
 			rodada++
 		}
+		if !acertou {
+			vidas--
+		}
+		fmt.Println("Suas vidas:", vidas)
+
+		for _, str := range palavraSecreta {
+			if !strings.Contains(str, "_") {
+				encerrar = true
+			}
+			if encerrar == true {
+				break
+			}
+		}
+
 	}
+	fmt.Println("Voce perdeu, a resposta era:", palavra)
 }
 
 func verificaRespostasMenu() {
@@ -133,4 +153,4 @@ func perguntaTema() string {
 	return arquivo
 }
 
-//TODO introduzir um sistema de vida e terminar o looping "jogando"
+//TODO concertar o erro do jogo nao encerrar quando vence, e as rodadas nao avancam
