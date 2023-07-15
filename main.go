@@ -23,17 +23,32 @@ func main() { //                                                          Main
 
 }
 
-var palavraSecreta []string
-
 func Jogando() {
 	palavra := obtemNomeAleatorio()
-	fmt.Println(palavra)
+	contador := len(palavra)
+	palavraSecreta := make([]string, contador)
+	fmt.Println(palavra) //TODO excluir no final
 	for i := 0; i < len(palavra); i++ {
-		palavraSecreta = append(palavraSecreta, "_")
+		palavraSecreta[i] = "_"
 	}
-	fmt.Println(palavraSecreta)
-	palavraSecreta = []string{}
+	acertou := true
 
+	for acertou {
+		var chute string
+		var rodada int = 0
+		fmt.Println(palavraSecreta)
+		fmt.Println("")
+		fmt.Println("Qual a", rodada+1, "ª letra?")
+		fmt.Scan(&chute)
+
+		for _, letra := range palavra {
+			if strings.ToUpper(chute) == strings.ToUpper(string(letra)) {
+				palavraSecreta[rodada] = chute
+				fmt.Println(rodada)
+			}
+			rodada++
+		}
+	}
 }
 
 func verificaRespostasMenu() {
@@ -80,7 +95,6 @@ func obtemNomeAleatorio() string {
 
 	// Dividir o conteúdo em linhas
 	linhas := strings.Split(string(conteudo), "\n")
-
 	// Inicializar o gerador de números aleatórios
 	rand.Seed(time.Now().UnixNano())
 
@@ -88,7 +102,7 @@ func obtemNomeAleatorio() string {
 	indiceAleatorio := rand.Intn(len(linhas))
 
 	// Retornar o nome aleatório
-	return linhas[indiceAleatorio]
+	return strings.TrimSpace(linhas[indiceAleatorio])
 }
 
 func perguntaTema() string {
@@ -119,4 +133,4 @@ func perguntaTema() string {
 	return arquivo
 }
 
-//TODO tentar entender o porque o numero de "_" nao esta retornando a quantidade equivalente a de letras nas palavras
+//TODO introduzir um sistema de vida e terminar o looping "jogando"
